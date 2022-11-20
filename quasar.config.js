@@ -144,8 +144,8 @@ module.exports = configure(function (ctx) {
       // chainWebpackCustomSW (/* chain */) {},
 
       manifest: {
-        name: 'serum',
-        short_name: 'serum',
+        name: 'Serum',
+        short_name: 'Serum',
         description: '',
         display: 'standalone',
         orientation: 'portrait',
@@ -211,7 +211,7 @@ module.exports = configure(function (ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'serum'
+        appId: 'serum-ui'
       },
 
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
