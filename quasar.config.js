@@ -33,7 +33,7 @@ module.exports = configure(function (ctx) {
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-webpack/boot-files
     boot: [
-      
+
       'axios',
     ],
 
@@ -79,7 +79,12 @@ module.exports = configure(function (ctx) {
 
       // https://v2.quasar.dev/quasar-cli-webpack/handling-webpack
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
-      // chainWebpack (/* chain */) {}
+      chainWebpack (chain) {
+        chain.module.rule('pug')
+          .test(/\.pug$/)
+          .use('pug-plain-loader')
+            .loader('pug-plain-loader')
+      }
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-devServer
