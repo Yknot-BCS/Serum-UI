@@ -1,22 +1,18 @@
 <script lang="ts">
-import tokenCountdown from 'components/tokenCountdown.vue'
+import Tokens from 'components/Tokens.vue'
 import NFTs from 'components/NFTs.vue'
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { tokenCountdown ,NFTs },
-  setup() {
-
-    return { tokenCountdown };
-  }
+  components: { Tokens ,NFTs },
 });
 </script>
 <template lang="pug">
 q-page
-  .row.full-width
-    tokenCountdown
-  .row-full-width
+  .row
+    Tokens
+  .row
     NFTs
 </template>
 

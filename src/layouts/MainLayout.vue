@@ -1,29 +1,19 @@
+<!-- eslint-disable vue/no-reserved-component-names -->
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
+import Header from 'components/Header.vue'
 
 export default defineComponent({
   name: 'MainLayout',
+  components: { Header },
 
 });
 </script>
 <template lang="pug">
 q-layout(view='hHh Lpr fff')
-  q-header
-    q-toolbar.row.q-py-sm.q-px-md.top-nav
-      .row.full-length.items-center
-        .col-auto
-            img.logo.q-mr-md(
-              src='~assets/quasar-logo-vertical.svg'
-            )
-        .col
+  Header
   q-page-container
     router-view
 
 </template>
-<style scoped lang="sass">
-.logo
-  height: 70px
-.top-nav
-  box-shadow: 0px 1px #ECECEC,
-  background-color: black
-</style>
+

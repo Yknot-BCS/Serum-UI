@@ -9,13 +9,15 @@ export default defineComponent({
 });
 </script>
 <template lang="pug">
-q-item.count-down
+q-item.nft-data
   q-item-section
     h5 NFT DATA
 
 </template>
 <style scoped lang="sass">
-.count-down
+.nft-data
   box-shadow: 0px 1px #ECECEC,
   background-color:  black
+  width: 100%
+  height: 600px
 </style>

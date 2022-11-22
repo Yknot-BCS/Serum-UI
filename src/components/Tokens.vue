@@ -1,25 +1,28 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <script lang="ts">
 import {
   defineComponent,
 } from 'vue';
 
 export default defineComponent({
-  name: 'tokenCountdown',
+  name: 'Tokens',
 
 });
 </script>
 <template lang="pug">
-q-item.count-down
+q-item.token-data
   q-item-section
     h5 Claim Your Tokens
     h6 Time left to claim 85 days
     q-btn(
       color="red",
-
+      label="Claim All"
     )
 </template>
 <style scoped lang="sass">
-.count-down
+.token-data
   box-shadow: 0px 1px #ECECEC,
-  background-color:  #F5F4F4 
+  background-color:  #F5F4F4
+  width: 100%
+  height: 300px
 </style>
