@@ -5,7 +5,24 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'Header',
+  components: {},
+  setup() {
+    const ethereumButton = document.querySelector('.enableEthereumButton');
+    const showAccount = document.querySelector('.showAccount');
+    return {
+      ethereumButton,
+      showAccount
+    };
+  },
+  methods: {
+    getAccount:async () => {
+      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+      const account = accounts[0];
+      this.showAccount.innerHTML = account;
 
+      return account;
+    }
+  }
 });
 </script>
 <template lang="pug">
@@ -18,7 +35,9 @@ q-header
         )
       .col-2
         q-btn(
-          color="yellow"
+          id="ethereumButton"
+          label="MetaMask Login"
+          @click="getAccount"
         )
 </template>
 <style scoped lang="sass">
