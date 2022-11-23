@@ -12,12 +12,15 @@ export default defineComponent({
 <template lang="pug">
 q-item.token-data
   q-item-section
-    h5 Claim Your Tokens
-    h6 Time left to claim 85 days
-    q-btn(
-      color="red",
-      label="Claim All"
-    )
+    .row.justify-center
+      h5 Claim Your Tokens
+    .row.justify-center
+      h6 Time left to claim 85 days
+    .row.justify-center
+      q-btn(
+        color="red",
+        label="Claim All"
+      )
 </template>
 <style scoped lang="sass">
 .token-data

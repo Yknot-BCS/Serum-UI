@@ -52,17 +52,14 @@ export default defineComponent({
 <template lang="pug">
 q-header
   q-toolbar.row.q-py-sm.q-px-md.top-nav
-    .row.full-length.items-center
-      .col-2
-        img.logo.q-mr-md(
-          src='~assets/logo.png'
-        )
-      .col-8
-      .col-2
-        q-btn(
-          label="MetaMask Login"
-          @click="getContractDetails"
-        )
+    img.logo.q-mr-md(
+      src='~assets/logo.png'
+    )
+    q-space
+    q-btn(
+      label="MetaMask Login"
+      @click="getContractDetails"
+    )
 </template>
 <style scoped lang="sass">
 .logo
