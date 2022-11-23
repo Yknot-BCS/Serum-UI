@@ -2,25 +2,27 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { ethers } from 'ethers';
 
 export default defineComponent({
   name: 'Header',
   components: {},
   setup() {
-    const ethereumButton = document.querySelector('.enableEthereumButton');
-    const showAccount = document.querySelector('.showAccount');
     return {
-      ethereumButton,
-      showAccount
+
     };
   },
   methods: {
-    getAccount:async () => {
-      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-      const account = accounts[0];
-      this.showAccount.innerHTML = account;
 
-      return account;
+    getAccountDetails:async () => {
+      
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      const accounts = await provider.send('eth_requestAccounts', []);
+      const chainId = await provider.send('eth_chainId', []);
+      const account = accounts[0];
+      const balance = await provider.getBalance(account);
+
+      console.log(accounts, account, balance, chainId);
     }
   }
 });
@@ -37,7 +39,7 @@ q-header
         q-btn(
           id="ethereumButton"
           label="MetaMask Login"
-          @click="getAccount"
+          @click="getAccountDetails"
         )
 </template>
 <style scoped lang="sass">
