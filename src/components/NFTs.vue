@@ -9,21 +9,21 @@ export default defineComponent({
   setup(){
     const NFTDummies = [
       {
-        databaseID: 'Device1',
+        databaseID: 'MY NFT',
         dataField1: 'Test1',
         dataField2: 'Test2',
         file: 'File',
         actions: 'N/A'
       },
       {
-        databaseID: 'Device2',
+        databaseID: 'MY NFT 2',
         dataField1: 'Test1',
         dataField2: 'Test2',
         file: 'File',
         actions: 'N/A'
       },
       {
-        databaseID: 'Device3',
+        databaseID: 'MY NFT 3',
         dataField1: 'Test1',
         dataField2: 'Test2',
         file: 'File',
@@ -40,18 +40,23 @@ export default defineComponent({
 <template lang="pug">
 q-item.nft-data
   .row.align-center.justify-center
-      q-card.q-ma-md(v-for='NFT in NFTDummies', bordered)
-        q-card-section
-          h3.text-white {{NFT.databaseID}}
+    q-card.q-ma-md(v-for='NFT in NFTDummies', bordered)
+      .row.flex-center
+        h4.card-header {{NFT.databaseID}}
+      .row.flex-center
         img.q-ma-md.logo(
           src='~assets/star.svg'
         )
+      .col.text-center
+        .p.text-yellow CLAIMED
+        .p.text-white AVAILABLE
+        .p.text-white LOCKED
+      .row.flex-center
         q-card-actions(vertical)
           q-btn(
-            label='claim'
+            label='Claim Now'
+            icon='star'
           )
-
-
 
 </template>
 <style scoped lang="sass">
@@ -62,4 +67,8 @@ q-item.nft-data
   background-color:  black
   width: 100%
   height: 100%
+.card-header
+  color: white
+  text-align: center
+  vertical-align: middle
 </style>
