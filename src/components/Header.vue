@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <!-- eslint-disable vue/no-reserved-component-names -->
 <!-- eslint-disable vue/multi-word-component-names -->
 <script lang="ts">
@@ -20,7 +21,7 @@ export default defineComponent({
 
     getAccountDetails:async () => {
 
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const provider = new ethers.providers.Web3Provider((window as any).ethereum);
       const accounts = await provider.send('eth_requestAccounts', []);
       const chainId = await provider.send('eth_chainId', []);
       const account = accounts[0];
@@ -38,7 +39,7 @@ export default defineComponent({
       'function totalSupply() view returns (uint)',
       'function tokenByIndex(index) view returns (uint)'
       ];
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const provider = new ethers.providers.Web3Provider((window as any).ethereum);
       const contract = new ethers.Contract('0x1B84f3Db0EC59e1854f24d03596585F9740c9266', ERC721_ABI, provider);
       const totalSupply = await contract.totalSupply();
       const name = await contract.name();
@@ -57,13 +58,14 @@ q-header
     )
     q-space
     q-btn(
+      color="black"
       label="MetaMask Login"
       @click="getContractDetails"
     )
 </template>
 <style scoped lang="sass">
 .logo
-  height: 50px
+  height: 60px
 .top-nav
   box-shadow: 0px 1px #ECECEC,
   background-color: black
