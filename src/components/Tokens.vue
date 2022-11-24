@@ -18,7 +18,6 @@ q-item.token-data
       h6 Time left to claim 85 days
     .row.justify-center
       q-btn(
-        color="red",
         label="Claim All"
       )
 </template>

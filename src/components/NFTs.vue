@@ -39,18 +39,17 @@ export default defineComponent({
 </script>
 <template lang="pug">
 q-item.nft-data
-  .row.align-center
-    q-card.q-ma-md(v-for='NFT in NFTDummies', bordered)
-      q-card-section
-        h3.text-white {{NFT.databaseID}}
-      img.q-ma-md.logo(
-        src='~assets/star.svg'
-      )
-      q-card-actions(vertical)
-        q-btn(
-          label='claim'
-          color='red'
+  .row.align-center.justify-center
+      q-card.q-ma-md(v-for='NFT in NFTDummies', bordered)
+        q-card-section
+          h3.text-white {{NFT.databaseID}}
+        img.q-ma-md.logo(
+          src='~assets/star.svg'
         )
+        q-card-actions(vertical)
+          q-btn(
+            label='claim'
+          )
 
 
 
@@ -62,5 +61,5 @@ q-item.nft-data
   box-shadow: 0px 1px #ECECEC,
   background-color:  black
   width: 100%
-  height: 600px
+  height: 100%
 </style>

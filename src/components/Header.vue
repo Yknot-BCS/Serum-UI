@@ -63,7 +63,7 @@ q-header
 </template>
 <style scoped lang="sass">
 .logo
-  height: 70px
+  height: 50px
 .top-nav
   box-shadow: 0px 1px #ECECEC,
   background-color: black
