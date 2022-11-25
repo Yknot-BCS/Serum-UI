@@ -1,12 +1,18 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script lang="ts">
 import {
-  defineComponent,
+  defineComponent,ref
 } from 'vue';
 
 export default defineComponent({
   name: 'Tokens',
-
+  setup() {
+    // Someway to get countdown from contract
+    const countDown = ref(84);
+    return {
+        countDown
+    };
+  },
 });
 </script>
 <template lang="pug">
@@ -18,7 +24,7 @@ q-item.token-data
       .h2_title Time left to claim
         q-img.q-ma-xs(
           src='~assets/loading.svg',width="20px")
-        | 85 days...
+        | {{countDown}} days...
     .row.justify-center
       q-btn(
         label="Claim All"

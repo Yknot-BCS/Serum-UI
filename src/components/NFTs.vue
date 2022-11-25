@@ -48,9 +48,10 @@ q-item.nft-data
           src='~assets/star.svg'
         )
       .col.text-center
-        .p.text-yellow CLAIMED
-        .p.text-white AVAILABLE
-        .p.text-white LOCKED
+        .p.text-yellow CLAIMED : {{NFT.actions}}
+        .p.text-white AVAILABLE : {{NFT.file}}
+        .p.text-white LOCKED :  {{NFT.dataField1}}
+
       .row.flex-center
         q-card-actions(vertical)
           q-btn(
