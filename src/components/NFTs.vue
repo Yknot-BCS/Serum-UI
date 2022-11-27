@@ -8,26 +8,29 @@ export default defineComponent({
 
   setup(){
     const NFTDummies = [
-      {
-        databaseID: 'MY NFT',
-        dataField1: 'Test1',
-        dataField2: 'Test2',
-        file: 'File',
-        actions: 'N/A'
+    {
+    'name': '#976',
+    'description': '',
+    'image': 'ipfs://QmdGPQVFirRFB6f3YJckx7rivck67mmn5Qofw5xYowoZLd/976.png',
+    'dna': '5e4a2debaae8641c674a1509175fb54cdc84eb64',
+    'edition': 976,
+    'date': 1644596775821,
+      },
+    {
+    'name': '#970',
+    'description': '',
+    'image': 'ipfs://QmdGPQVFirRFB6f3YJckx7rivck67mmn5Qofw5xYowoZLd/976.png',
+    'dna': '5e4a2debaae8641c674a1509175fb54cdc84eb64',
+    'edition': 976,
+    'date': 1644596775821,
       },
       {
-        databaseID: 'MY NFT 2',
-        dataField1: 'Test1',
-        dataField2: 'Test2',
-        file: 'File',
-        actions: 'N/A'
-      },
-      {
-        databaseID: 'MY NFT 3',
-        dataField1: 'Test1',
-        dataField2: 'Test2',
-        file: 'File',
-        actions: 'N/A'
+    'name': '#979',
+    'description': '',
+    'image': 'ipfs://QmdGPQVFirRFB6f3YJckx7rivck67mmn5Qofw5xYowoZLd/976.png',
+    'dna': '5e4a2debaae8641c674a1509175fb54cdc84eb64',
+    'edition': 976,
+    'date': 1644596775821,
       }
     ];
     return{
@@ -42,7 +45,7 @@ q-item.nft-data
   .row.align-center.justify-center
     q-card.q-ma-md(v-for='NFT in NFTDummies', bordered)
       .row.flex-center
-        h4.card-header {{NFT.databaseID}}
+        h4.card-header {{NFT.name}}
       .row.flex-center
         img.q-ma-md.logo(
           src='~assets/star.svg'
