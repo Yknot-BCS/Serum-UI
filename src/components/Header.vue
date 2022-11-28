@@ -18,7 +18,7 @@ export default defineComponent({
 
   },
   methods: {
-
+    
     getAccountDetails:async () => {
 
       const provider = new ethers.providers.Web3Provider((window as any).ethereum);
@@ -37,15 +37,16 @@ export default defineComponent({
       'function name() view returns (string)',
       'function tokenOfownerByIndex(address, index) view returns (uint)',
       'function totalSupply() view returns (uint)',
-      'function tokenByIndex(index) view returns (uint)'
+      'function tokenURI(uint256) view returns (string)',
+      'function walletOfOwner(address) view returns (uint256[])'
       ];
       const provider = new ethers.providers.Web3Provider((window as any).ethereum);
       const contract = new ethers.Contract('0x1B84f3Db0EC59e1854f24d03596585F9740c9266', ERC721_ABI, provider);
-      const totalSupply = await contract.totalSupply();
+      const ownedTokens = await contract.walletOfOwner('0x2A0d9059075a84C280Db8f8542Bf7e7cD75F51f2');
       const name = await contract.name();
-      const balance = await contract.balanceOf('0xd04da43d4a6e3434399a495e6a0f5c426ecec3ea')
+      const tokenData = await contract.tokenURI(1);
 
-      console.log(name, totalSupply , balance);
+      console.log(name,tokenData, ownedTokens  );
       }
   }
 });

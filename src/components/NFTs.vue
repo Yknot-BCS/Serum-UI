@@ -11,7 +11,7 @@ export default defineComponent({
     {
     'name': '#976',
     'description': '',
-    'image': 'ipfs://QmdGPQVFirRFB6f3YJckx7rivck67mmn5Qofw5xYowoZLd/976.png',
+    'image': 'https://ipfs.io/ipfs/QmdGPQVFirRFB6f3YJckx7rivck67mmn5Qofw5xYowoZLd/976.png',
     'dna': '5e4a2debaae8641c674a1509175fb54cdc84eb64',
     'edition': 976,
     'date': 1644596775821,
@@ -19,7 +19,7 @@ export default defineComponent({
     {
     'name': '#970',
     'description': '',
-    'image': 'ipfs://QmdGPQVFirRFB6f3YJckx7rivck67mmn5Qofw5xYowoZLd/976.png',
+    'image': 'ipfs://QmdGPQVFirRFB6f3YJckx7rivck67mmn5Qofw5xYowoZLd/440.png',
     'dna': '5e4a2debaae8641c674a1509175fb54cdc84eb64',
     'edition': 976,
     'date': 1644596775821,
@@ -36,8 +36,16 @@ export default defineComponent({
     return{
       NFTDummies
     }
-  }
+  },
+  methods: {
 
+    imageLink(url:string) : string {
+
+      const imageUrl = url.replace('ipfs://', 'https://ipfs.io/ipfs/');
+
+      return imageUrl;
+    }
+  }
 });
 </script>
 <template lang="pug">
@@ -48,7 +56,7 @@ q-item.nft-data
         h4.card-header {{NFT.name}}
       .row.flex-center
         img.q-ma-md.logo(
-          src='~assets/star.svg'
+          :src= "imageLink(NFT.image)"
         )
       .col.text-center
         .p.text-yellow CLAIMED : {{NFT.actions}}
@@ -65,7 +73,7 @@ q-item.nft-data
 </template>
 <style scoped lang="sass">
 .logo
-  height: 150px
+  height: 185px
 .nft-data
   box-shadow: 0px 1px #ECECEC,
   background-color:  black
