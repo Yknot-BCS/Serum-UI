@@ -13,17 +13,31 @@ export default defineComponent({
     const account = computed(() => store.getAccount);
 
     //- Chad Contract Address
-    const chadContract = '0x1B84f3Db0EC59e1854f24d03596585F9740c9266';
+    const chadContract = '0x52E8DE03B382743Eb3ed6E68D5553580fc5fBcD8'; //testnet
+    const claimContract = '0x9584F7b1Fbc1370A126F5408c9fC4bDCdfb1B581';
+    const serumContract = '0x3D36FC0bEdC3FF7E15C0c30d6331C067D1A1E09C';
+    // const chadContract = '0x1B84f3Db0EC59e1854f24d03596585F9740c9266'; // mainnet
+    // const claimContract = '0x9584F7b1Fbc1370A126F5408c9fC4bDCdfb1B581';
+    // const serumContract = '0x1B84f3Db0EC59e1854f24d03596585F9740c9266';
     const ERC721_ABI = [
       'function walletOfOwner(address) view returns (uint256[])',
       'function tokenURI(uint256) view returns (string)',
       'function tokenOfOwnerByIndex(address, uint256) view returns (uint256)'
+    ];
+    const claimABI = [
+      'function claim(uint256) view returns (uint256)'
+    ];
+    const ERC20_ABI = [
+      'function balanceOf(address) view returns (uint256)',
+      'function transfer(address, uint256) view returns (bool)'
     ];
 
     return {
       store,
       nftData: ref<string[]>([]),
       chadContract,
+      claimContract,
+      serumContract,
       ERC721_ABI,
       account
     }
@@ -54,13 +68,21 @@ export default defineComponent({
         for (const nft of tokenIds) {
           // axios get ipfs json data
           this.$axios.get(`https://ipfs.io/ipfs/QmWjQNm3N8eWNQtAAmdU5KaQW46x2AoaGxU9RjmHTLuGHF/${nft}.json`).then((res) => {
-            // console.log(res.data);
             this.nftData.push(res.data);
           });
         }
-        // console.log(this.nftData);
-        // return tokenIds;
       }
+    },
+
+    // Claim All NFTs
+    async claimAll() {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // const provider = new ethers.providers.Web3Provider((window as any).ethereum);
+      // const signer = provider.getSigner();
+      // const contract = new ethers.Contract(this.claimContract, this., signer);
+      // const tx = await contract.claimAll();
+      // await tx.wait();
+      // console.log('Claimed All NFTs');
     }
   },
 

@@ -15,6 +15,7 @@ export default defineComponent({
     const store = useAccountStore();
 
     return {
+      store,
       //- Method to Fetch User Data
       // TODO ensure correct chain (ethereum mainnet)
       metamaskLogin: async () => {
@@ -35,7 +36,10 @@ q-header
       src='~assets/logo.png'
     )
     q-space
+    .row(v-if="store.isAuthorized")
+      | {{ store.getAccount }}
     q-btn(
+      v-if="!store.isAuthorized"
       color="black"
       label="MetaMask Login"
       @click="metamaskLogin"
