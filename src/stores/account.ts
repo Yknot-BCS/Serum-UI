@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 
 export const useAccountStore = defineStore('account', {
   state: () => ({
-    accountAddr: '0x2A0d9059075a84C280Db8f8542Bf7e7cD75F51f2',
+    accountAddr: '',
     tokenIds: [] as string[]
   }),
 

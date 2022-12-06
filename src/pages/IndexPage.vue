@@ -13,9 +13,10 @@ export default defineComponent({
     const account = computed(() => store.getAccount);
 
     //- Chad Contract Address
-    const chadContract = '0x52E8DE03B382743Eb3ed6E68D5553580fc5fBcD8'; //testnet
-    const claimContract = '0x9584F7b1Fbc1370A126F5408c9fC4bDCdfb1B581';
-    const serumContract = '0x3D36FC0bEdC3FF7E15C0c30d6331C067D1A1E09C';
+    const lockId = 0;
+    const chadContractAddr = '0x52E8DE03B382743Eb3ed6E68D5553580fc5fBcD8'; //testnet
+    const claimContractAddr = '0x9584F7b1Fbc1370A126F5408c9fC4bDCdfb1B581';
+    const serumContractAddr = '0x3D36FC0bEdC3FF7E15C0c30d6331C067D1A1E09C';
     // const chadContract = '0x1B84f3Db0EC59e1854f24d03596585F9740c9266'; // mainnet
     // const claimContract = '0x9584F7b1Fbc1370A126F5408c9fC4bDCdfb1B581';
     // const serumContract = '0x1B84f3Db0EC59e1854f24d03596585F9740c9266';
@@ -25,7 +26,9 @@ export default defineComponent({
       'function tokenOfOwnerByIndex(address, uint256) view returns (uint256)'
     ];
     const claimABI = [
-      'function claim(uint256) view returns (uint256)'
+      'function getWithdrawableSharesToken(uint256,uint256) view returns (uint256)',
+      'function LOCKS(uint256) view returns (address tokenAddress,address nftContract,uint256 sharesDeposited,uint256 sharesWithdrawn,uint256 startEmission,uint256 endEmission,uint256 expiration,uint256 lockID,address owner,address condition)',
+      'function NFT_LOCKS(uint256,uint256) view returns (uint256 sharesDeposited,uint256 sharesWithdrawn)'
     ];
     const ERC20_ABI = [
       'function balanceOf(address) view returns (uint256)',
@@ -34,15 +37,23 @@ export default defineComponent({
 
     return {
       store,
-      nftData: ref<string[]>([]),
-      chadContract,
-      claimContract,
-      serumContract,
+      nftData: ref<any[]>([]),
+      chadContractAddr,
+      claimContractAddr,
+      serumContractAddr,
       ERC721_ABI,
-      account
+      claimABI,
+      ERC20_ABI,
+      account,
+      lockId,
     }
   },
   methods: {
+    toEther(amount: ethers.BigNumber): string {
+      let res = ethers.utils.formatEther(amount);
+      res = (+res).toFixed(4);
+      return `${res} SER`;
+    },
 
     imageLink(url: string): string {
       if (url) {
@@ -60,10 +71,10 @@ export default defineComponent({
       if (this.store.isAuthorized) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const provider = new ethers.providers.Web3Provider((window as any).ethereum);
-        console.log(await provider.getNetwork())
-        const contract = new ethers.Contract(this.chadContract, this.ERC721_ABI, provider);
-        const tokenIds = await contract.walletOfOwner(this.account);
-        console.log(tokenIds);
+        // console.log(await provider.getNetwork())
+        const chadcontract = new ethers.Contract(this.chadContractAddr, this.ERC721_ABI, provider);
+        const tokenIds = await chadcontract.walletOfOwner(this.account);
+        // console.log(tokenIds);
 
         for (const nft of tokenIds) {
           // axios get ipfs json data
@@ -71,11 +82,28 @@ export default defineComponent({
             this.nftData.push(res.data);
           });
         }
+        // console.log(this.nftData)
+
+        const claimtokens = new ethers.Contract(this.claimContractAddr, this.claimABI, provider);
+        console.log((await claimtokens.getWithdrawableSharesToken(0, 1)).toString());
+        console.log(await claimtokens.LOCKS(0));
+        for (const nft of this.nftData) {
+          // Calculate claimed, available and locked tokens
+          let { sharesDeposited, sharesWithdrawn } = await claimtokens.NFT_LOCKS(this.lockId, nft['edition']);
+          sharesDeposited = ethers.BigNumber.from(sharesDeposited);
+          sharesWithdrawn = ethers.BigNumber.from(sharesWithdrawn);
+          nft['claimed'] = sharesWithdrawn;
+          nft['available'] = await claimtokens.getWithdrawableSharesToken(0, 1);
+          nft['locked'] = sharesDeposited.sub(sharesWithdrawn);
+          // console.log(nft)
+        }
+
       }
     },
 
     // Claim All NFTs
     async claimAll() {
+      console.log('Claiming All NFTs')
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // const provider = new ethers.providers.Web3Provider((window as any).ethereum);
       // const signer = provider.getSigner();
@@ -83,8 +111,20 @@ export default defineComponent({
       // const tx = await contract.claimAll();
       // await tx.wait();
       // console.log('Claimed All NFTs');
-    }
+    },
+
+    async claimSingle(tokenId: number) {
+      console.log('Claiming Single NFT' + tokenId)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // const provider = new ethers.providers.Web3Provider((window as any).ethereum);
+      // const signer = provider.getSigner();
+      // const contract = new ethers.Contract(this.claimContract, this., signer);
+      // const tx = await contract.claim(tokenId);
+      // await tx.wait();
+      // console.log('Claimed Single NFT');
+    },
   },
+
 
   watch: {
     account: {
@@ -115,6 +155,7 @@ q-page
         .row.justify-center
           q-btn(
             label="Claim All"
+            @click="claimAll()"
           )
   //- User NFTs
   .row
@@ -128,14 +169,15 @@ q-page
               :src= "imageLink(NFT.image)"
             )
           .col.text-center
-            .p.text-yellow CLAIMED : {{NFT.actions}}
-            .p.text-white AVAILABLE : {{NFT.file}}
-            .p.text-white LOCKED :  {{NFT.dataField1}}
+            .p.text-yellow CLAIMED : {{NFT.claimed != undefined ? toEther(NFT.claimed) : 0}}
+            .p.text-white AVAILABLE : {{NFT.available != undefined ? toEther(NFT.available): 0}}
+            .p.text-white LOCKED :  {{NFT.locked != undefined ? toEther(NFT.locked): 0}}
 
           .row.flex-center
             q-card-actions(vertical)
               q-btn(
                 label='Claim Now'
                 icon='star'
+                @click="claimSingle(NFT.edition)"
               )
 </template>
