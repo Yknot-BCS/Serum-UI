@@ -177,7 +177,7 @@ q-page
   //- Token Countdown and Claim All Area
   .row
     q-item.token-data
-      q-item-section
+      q-item-section(v-if="store.isAuthorized")
         .row.justify-center
           .h1_title Claim Your Tokens
         .row.justify-center
@@ -190,8 +190,15 @@ q-page
             label="Claim All"
             @click="claimAll()"
           )
+      q-item-section(v-else)
+        .row.justify-center
+          .h2_title Please use the MetaMask Login Button to access your NFT's
+        .row.justify-center
+          q-img.q-ma-xs(
+            src='~assets/home.gif',width="100px")
+
   //- User NFTs
-  .row
+  .row(v-if="store.isAuthorized && nftData.length > 0")
     q-item.nft-data
       .row.align-center.justify-center
         q-card.q-ma-md(v-for='NFT in nftData', bordered)
