@@ -101,6 +101,7 @@ export default defineComponent({
         const tokenIds = await chadcontract.walletOfOwner(this.account);
         // console.log(tokenIds);
 
+        this.nftData = [];
         for (const nft of tokenIds) {
           // axios get ipfs json data
           let res = await this.$axios.get(`https://ipfs.io/ipfs/QmWjQNm3N8eWNQtAAmdU5KaQW46x2AoaGxU9RjmHTLuGHF/${nft}.json`)
