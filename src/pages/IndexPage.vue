@@ -38,6 +38,7 @@ export default defineComponent({
 
     return {
       store,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       nftData: ref<any[]>([]),
       chadContractAddr,
       claimContractAddr,
@@ -47,7 +48,9 @@ export default defineComponent({
       ERC20_ABI,
       account,
       lockId,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       polling: ref<any>(null),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       countdown: ref<any>(null),
       lockInfo: ref({
         nftContract: '',

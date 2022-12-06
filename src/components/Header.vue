@@ -2,7 +2,7 @@
 <!-- eslint-disable vue/no-reserved-component-names -->
 <!-- eslint-disable vue/multi-word-component-names -->
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { ethers } from 'ethers';
 // import { computed } from 'vue';
 import { useAccountStore } from 'stores/account';
@@ -16,6 +16,10 @@ export default defineComponent({
 
     return {
       store,
+      network: ref({
+        chainId: 0,
+        name: ''
+      }),
       //- Method to Fetch User Data
       // TODO ensure correct chain (ethereum mainnet)
       metamaskLogin: async () => {
@@ -26,6 +30,28 @@ export default defineComponent({
 
       }
     };
+  },
+  computed: {
+    correctNetwork(): boolean {
+      return this.network.chainId === 1 || this.network.chainId === 5;
+    }
+  },
+
+  async mounted() {
+    // check if the correct network is selected
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const provider = new ethers.providers.Web3Provider((window as any).ethereum);
+    this.network = await provider.getNetwork();
+    console.log(this.network)
+
+    if (!this.correctNetwork) {
+      this.$q.notify({
+        message: 'Please connect to the Ethereum Mainnet',
+        color: 'negative',
+        position: 'top',
+        timeout: 5000,
+      });
+    }
   }
 });
 </script>
@@ -38,8 +64,10 @@ q-header
     q-space
     .row(v-if="store.isAuthorized")
       | {{ store.getAccount }}
+    .row(v-if="!correctNetwork")
+      .text-red Select Ethereum Network
     q-btn(
-      v-if="!store.isAuthorized"
+      v-if="!store.isAuthorized && correctNetwork"
       color="black"
       label="MetaMask Login"
       @click="metamaskLogin"
