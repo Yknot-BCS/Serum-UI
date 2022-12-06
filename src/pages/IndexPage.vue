@@ -28,11 +28,12 @@ export default defineComponent({
     const claimABI = [
       'function getWithdrawableSharesToken(uint256,uint256) view returns (uint256)',
       'function LOCKS(uint256) view returns (address tokenAddress,address nftContract,uint256 sharesDeposited,uint256 sharesWithdrawn,uint256 startEmission,uint256 endEmission,uint256 expiration,uint256 lockID,address owner,address condition)',
-      'function NFT_LOCKS(uint256,uint256) view returns (uint256 sharesDeposited,uint256 sharesWithdrawn)'
+      'function NFT_LOCKS(uint256,uint256) view returns (uint256 sharesDeposited,uint256 sharesWithdrawn)',
+      'function withdraw(uint256,uint256,uint256)',
+      'function claimAll(uint256)'
     ];
     const ERC20_ABI = [
       'function balanceOf(address) view returns (uint256)',
-      'function transfer(address, uint256) view returns (bool)'
     ];
 
     return {
@@ -46,9 +47,33 @@ export default defineComponent({
       ERC20_ABI,
       account,
       lockId,
+      polling: ref<any>(null),
+      countdown: ref<any>(null),
+      lockInfo: ref({
+        nftContract: '',
+        amount: 0,
+        startEmission: 0,
+        endEmission: 0,
+        expiration: 0,
+        condition: '0x0000000000000000000000000000000000000000'
+      })
     }
   },
   methods: {
+    timeRemaining() {
+      if (this.lockInfo.startEmission !== 0 && this.lockInfo.endEmission !== 0) {
+        const now = new Date().getTime();
+        const end = this.lockInfo.expiration * 1000;
+        const diff = end - now;
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        this.countdown = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      } else {
+        this.countdown = '';
+      }
+    },
     toEther(amount: ethers.BigNumber): string {
       let res = ethers.utils.formatEther(amount);
       res = (+res).toFixed(4);
@@ -78,24 +103,22 @@ export default defineComponent({
 
         for (const nft of tokenIds) {
           // axios get ipfs json data
-          this.$axios.get(`https://ipfs.io/ipfs/QmWjQNm3N8eWNQtAAmdU5KaQW46x2AoaGxU9RjmHTLuGHF/${nft}.json`).then((res) => {
-            this.nftData.push(res.data);
-          });
+          let res = await this.$axios.get(`https://ipfs.io/ipfs/QmWjQNm3N8eWNQtAAmdU5KaQW46x2AoaGxU9RjmHTLuGHF/${nft}.json`)
+          this.nftData.push(res.data);
         }
-        // console.log(this.nftData)
 
         const claimtokens = new ethers.Contract(this.claimContractAddr, this.claimABI, provider);
-        console.log((await claimtokens.getWithdrawableSharesToken(0, 1)).toString());
-        console.log(await claimtokens.LOCKS(0));
+        // console.log((await claimtokens.getWithdrawableSharesToken(0, 1)).toString());
+        // console.log(await claimtokens.LOCKS(0));
+        this.lockInfo = await claimtokens.LOCKS(this.lockId);
         for (const nft of this.nftData) {
           // Calculate claimed, available and locked tokens
           let { sharesDeposited, sharesWithdrawn } = await claimtokens.NFT_LOCKS(this.lockId, nft['edition']);
           sharesDeposited = ethers.BigNumber.from(sharesDeposited);
           sharesWithdrawn = ethers.BigNumber.from(sharesWithdrawn);
           nft['claimed'] = sharesWithdrawn;
-          nft['available'] = await claimtokens.getWithdrawableSharesToken(0, 1);
+          nft['available'] = await claimtokens.getWithdrawableSharesToken(0, nft['edition']);
           nft['locked'] = sharesDeposited.sub(sharesWithdrawn);
-          // console.log(nft)
         }
 
       }
@@ -105,23 +128,25 @@ export default defineComponent({
     async claimAll() {
       console.log('Claiming All NFTs')
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      // const provider = new ethers.providers.Web3Provider((window as any).ethereum);
-      // const signer = provider.getSigner();
-      // const contract = new ethers.Contract(this.claimContract, this., signer);
-      // const tx = await contract.claimAll();
-      // await tx.wait();
-      // console.log('Claimed All NFTs');
+      const provider = new ethers.providers.Web3Provider((window as any).ethereum);
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(this.claimContractAddr, this.claimABI, signer);
+      const tx = await contract.claimAll(this.lockId);
+      await tx.wait();
+      console.log('Claimed All NFT');
+      await this.getNftData()
     },
 
     async claimSingle(tokenId: number) {
       console.log('Claiming Single NFT' + tokenId)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      // const provider = new ethers.providers.Web3Provider((window as any).ethereum);
-      // const signer = provider.getSigner();
-      // const contract = new ethers.Contract(this.claimContract, this., signer);
-      // const tx = await contract.claim(tokenId);
-      // await tx.wait();
-      // console.log('Claimed Single NFT');
+      const provider = new ethers.providers.Web3Provider((window as any).ethereum);
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(this.claimContractAddr, this.claimABI, signer);
+      const tx = await contract.withdraw(this.lockId, tokenId, 0);
+      await tx.wait();
+      console.log('Claimed Single NFT');
+      await this.getNftData()
     },
   },
 
@@ -136,6 +161,10 @@ export default defineComponent({
 
   async mounted() {
     await this.getNftData();
+    this.polling = setInterval(() => {
+      this.timeRemaining();
+    }, 1000);
+
   }
 });
 </script>
@@ -151,7 +180,7 @@ q-page
           .h2_title Time left to claim
             q-img.q-ma-xs(
               src='~assets/loading.svg',width="20px")
-            | 44 days...
+            | {{countdown}}
         .row.justify-center
           q-btn(
             label="Claim All"
