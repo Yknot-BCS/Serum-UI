@@ -13,13 +13,11 @@ export default defineComponent({
     const account = computed(() => store.getAccount);
 
     //- Chad Contract Address
-    const lockId = 0;
-    const chadContractAddr = '0x52E8DE03B382743Eb3ed6E68D5553580fc5fBcD8'; //testnet
-    const claimContractAddr = '0x9584F7b1Fbc1370A126F5408c9fC4bDCdfb1B581';
-    const serumContractAddr = '0x3D36FC0bEdC3FF7E15C0c30d6331C067D1A1E09C';
-    // const chadContract = '0x1B84f3Db0EC59e1854f24d03596585F9740c9266'; // mainnet
-    // const claimContract = '0x9584F7b1Fbc1370A126F5408c9fC4bDCdfb1B581';
-    // const serumContract = '0x1B84f3Db0EC59e1854f24d03596585F9740c9266';
+    const lockId = process.env.LOCKID as string;
+    const chadContractAddr = process.env.CHADCONTRACT as string; //testnet
+    const claimContractAddr = process.env.CLAIMCONTRACT as string;
+    const serumContractAddr = process.env.SERUMCONTRACT as string;
+
     const ERC721_ABI = [
       'function walletOfOwner(address) view returns (uint256[])',
       'function tokenURI(uint256) view returns (string)',
