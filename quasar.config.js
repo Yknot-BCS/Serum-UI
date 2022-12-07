@@ -13,6 +13,7 @@
 
 
 const { configure } = require('quasar/wrappers');
+const envparsers = require('./config/envparser');
 
 module.exports = configure(function (ctx) {
   return {
@@ -58,7 +59,7 @@ module.exports = configure(function (ctx) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-build
     build: {
-      vueRouterMode: 'hash', // available values: 'hash', 'history'
+      vueRouterMode: 'history', // available values: 'hash', 'history'
 
       // transpile: false,
       // publicPath: '/',
@@ -76,7 +77,7 @@ module.exports = configure(function (ctx) {
 
       // Options below are automatically set depending on the env, set them if you want to override
       // extractCSS: false,
-      env: require('dotenv').config().parsed,
+      env: Object.assign({}, process.env, envparsers()), // environment variables loaded via .quasar.env.json
 
       // https://v2.quasar.dev/quasar-cli-webpack/handling-webpack
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
