@@ -12,7 +12,7 @@ export default defineComponent({
 <template lang="pug">
 q-header
   q-toolbar.row.q-py-xs.q-px-md.top-nav
-    h5(style="color: black") Analytics Tool
+    h5(style="color: black") Analytics
 </template>
 
 <style scoped lang="sass">

@@ -1,9 +1,9 @@
 {
-  "name": "serum-ui",
+  "name": "analytics",
   "version": "0.0.1",
-  "description": "Serum UI",
-  "productName": "Serum",
-  "author": "Yknot Blockchain Solutions",
+  "description": "analytics",
+  "productName": "Analytics",
+  "author": "Jonathan Vorster",
   "private": true,
   "scripts": {
     "dev": "quasar dev",
