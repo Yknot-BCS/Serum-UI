@@ -12,11 +12,12 @@ export default defineComponent({
 <template lang="pug">
 q-header
   q-toolbar.row.q-py-xs.q-px-md.top-nav
-    h5(style="color: black") Analytics
+    h5(style="color: white") Fuelswitch Analytics
 </template>
 
 <style scoped lang="sass">
 .top-nav
-  box-shadow: 0px 1px #ECECEC,
-  background-color: white
+  max-height: 80px,
+  box-shadow: 0px 2px #BBBBBB,
+  background: linear-gradient(to bottom right, $primary, $secondary)
 </style>
