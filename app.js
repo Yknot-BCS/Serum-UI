@@ -1,34 +1,18 @@
 const express = require("express");
-const { MongoClient } = require("mongodb");
+const { connectToServer } = require("./connection");
+const router = require("./router");
+
 require("dotenv").config();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
-async function main() {
-  const uri = process.env.URI;
-  
-  const client = new MongoClient(uri);
+app.use(express.json());
+app.use(router);
 
-  try {
-    // Connect to the MongoDB cluster
-    await client.connect();
+connectToServer();
 
-    // Make the appropriate DB calls
-    await listDatabases(client);
-  } catch (e) {
-    console.error(e);
-  } finally {
-    await client.close();
-  }
-}
-
-main().catch(console.error);
-
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+app.listen(port, function (err) {
+  if (err) console.log(err);
+  console.log("Server listening on PORT", port);
 });
