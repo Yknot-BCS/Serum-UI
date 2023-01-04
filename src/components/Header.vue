@@ -58,9 +58,10 @@ export default defineComponent({
 <template lang="pug">
 q-header
   q-toolbar.row.q-py-sm.q-px-md.top-nav
-    img.logo.q-mr-md(
-      src='~assets/logo.png'
-    )
+    router-link.row.items-center.cursor-pointer(:to='{ name: "home" }')
+      img.logo.q-mr-md(
+        src='~assets/logo.png'
+      )
     q-space
     .row(v-if="store.isAuthorized")
       | {{ store.getAccount }}
