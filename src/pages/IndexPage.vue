@@ -1,56 +1,28 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script lang="ts">
 import { defineComponent } from 'vue';
-import api from 'src/boot/api';
-import KYCCompletion from 'components/KYCCompletion.vue'
-
-export interface user {
-  name: string;
-}
+import KYCCompletion from 'components/KYCCompletion.vue';
+import Devices from 'components/Devices.vue';
+import REC from 'components/REC.vue';
 
 export default defineComponent({
   name: 'IndexPage',
-  components: {KYCCompletion},
-  data() {
-    return {
-      msg: '',
-      allNotValidated: true,
-      usersNotValidated: [] as unknown as user[]
-    };
-  },
-  async beforeMount() {
-    this.analyseUsers();
-  },
-  methods: {
-    async analyseUsers() {
-      const users = await api.getCollection('users');
-      console.log(users);
-
-      let count = 0;
-      users.forEach((user: any) => {
-        if (user.verifications.kyc === 'APPROVED') {
-          count++;
-        } else {
-          this.usersNotValidated.push(user);
-        }
-      });
-      if (count === users.length) {
-        this.allNotValidated = false;
-      }
-      this.msg = `${count}/${users.length}`;
-    }
-  }
+  components: { KYCCompletion, Devices, REC },
 });
 </script>
 
 <template lang="pug">
-q-page.justify-center.items-center.row
-  KYCCompletion
+q-page.flex-center.column(v-cloak)
+  KYCCompletion(v-cloak).card
+  Devices.card
+  REC.card
 </template>
 
 <style scoped lang="sass">
-.q-card
-  background: linear-gradient(to right bottom, $primary, $secondary)
-  width: 100%
-  width: 400px
+.card
+  background: linear-gradient(to right , $primary, $secondary)
+  width: 55%
+  min-width: 400px
+[v-cloak]
+  display: none
 </style>

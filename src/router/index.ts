@@ -1,4 +1,5 @@
 import { route } from 'quasar/wrappers';
+import { useLoginStore } from 'src/stores/login';
 import {
   createMemoryHistory,
   createRouter,
@@ -6,6 +7,7 @@ import {
   createWebHistory
 } from 'vue-router';
 import routes from './routes';
+
 
 /*
  * If not building with SSR mode, you can
@@ -33,6 +35,17 @@ export default route(function (/* { store, ssrContext } */) {
     history: createHistory(
       process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE
     )
+  });
+
+
+  Router.beforeResolve(async (to) => {
+    const store = useLoginStore()
+    if (!store.isAuthorized && to.path !== '/login') {
+      return {name:'login'};
+    }
+    if (store.isAuthorized && to.path !== '/home') {
+      return {name:'home'};
+    }
   });
 
   return Router;
