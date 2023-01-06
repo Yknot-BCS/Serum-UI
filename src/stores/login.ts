@@ -5,8 +5,9 @@ const bcrypt = require('bcryptjs');
 export interface Login {
   email: string;
   password: string;
-  isAuthorized?: boolean,
+  isAuthorized?: boolean;
   msg?: string;
+  isLoaded?: boolean;
 }
 
 export const useLoginStore = defineStore('login', {
@@ -14,7 +15,8 @@ export const useLoginStore = defineStore('login', {
     email: '',
     password: '',
     isAuthorized: false,
-    msg: ''
+    msg: '',
+    isLoaded: false
   }),
 
   getters: {},
@@ -22,9 +24,9 @@ export const useLoginStore = defineStore('login', {
   actions: {
     async setLoginDetails(_login: Login) {
       const res = await api.getUserSalt({ email: _login.email });
-      if(res.msg != null){
+      if (res.msg != null) {
         this.msg = res.msg;
-        return
+        return;
       }
 
       this.email = _login.email;
