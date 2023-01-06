@@ -1,5 +1,5 @@
-<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script lang="ts">
+import { Notify, QForm } from 'quasar';
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useLoginStore, Login } from '../stores/login';
@@ -11,26 +11,57 @@ export default defineComponent({
     const email = ref('');
     const password = ref('');
     const loginStore = ref(useLoginStore()).value;
+    const loginForm = ref<QForm>();
 
     const router = useRouter();
 
-    async function OnSubmit() {
-      const loginInformation = <Login>{
-        username: email.value,
+    async function onSubmit() {
+      const loginDetails = <Login>{
+        email: email.value,
         password: password.value
       };
-      loginStore.setLoginDetails(loginInformation);
-      await loginStore.authorize().then(() => {
-        if (loginStore.isAuthorized) {
-          router.push({ name: 'home' });
+
+      await loginStore.setLoginDetails(loginDetails).then(async () => {
+        if (loginStore.msg?.length !== 0) {
+          Notify.create({
+            color: 'red',
+            message: loginStore.msg,
+            timeout: 3000
+          });
+          loginStore.clear();
+          resetForm();
+          return;
         }
+        await loginStore.authorize().then(() => {
+          Notify.create({
+            color: loginStore.isAuthorized ? 'green' : 'red',
+            message: loginStore.msg,
+            timeout: 3000
+          });
+          if (loginStore.isAuthorized) {
+            router.push({ name: 'home' });
+          } else {
+            loginStore.clear();
+            resetForm();
+          }
+        });
       });
+      resetForm();
     }
+
+    function resetForm() {
+      email.value = '';
+      password.value = '';
+      loginForm.value?.resetValidation();
+    }
+
     return {
       email,
       password,
       loginStore,
-      OnSubmit
+      onSubmit,
+      loginForm,
+      resetForm
     };
   }
 });
@@ -43,7 +74,7 @@ q-page.flex-center.column
       div.text-h6.row.justify-center Login Page
     q-separator(dark inset)
     q-card-section.q-pa-md
-      q-form.q-gutter-md.q-pt-md(@submit="OnSubmit()")
+      q-form.q-gutter-md.q-pt-md(@submit="onSubmit()" ref="loginForm" @reset="resetForm()")
         q-input(
           dark
           filled

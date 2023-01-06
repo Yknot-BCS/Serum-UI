@@ -79,6 +79,9 @@ module.exports = configure(function (ctx) {
           .test(/\.pug$/)
           .use('pug-plain-loader')
           .loader('pug-plain-loader');
+      },
+      extendWebpack(cfg) {
+        cfg.resolve.fallback = { crypto: false };
       }
     },
 

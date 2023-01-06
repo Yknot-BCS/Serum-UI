@@ -1,32 +1,43 @@
 import api from 'src/boot/api';
 import { defineStore } from 'pinia';
+const bcrypt = require('bcryptjs');
 
 export interface Login {
-  username: string;
+  email: string;
   password: string;
-  isAuthorized?: boolean;
+  isAuthorized?: boolean,
+  msg?: string;
 }
 
 export const useLoginStore = defineStore('login', {
   state: (): Login => ({
-    username: '',
+    email: '',
     password: '',
-    isAuthorized: false
+    isAuthorized: false,
+    msg: ''
   }),
 
   getters: {},
 
   actions: {
-    setLoginDetails(_login: Login) {
-      this.username = _login.username;
-      this.password = _login.password;
+    async setLoginDetails(_login: Login) {
+      const res = await api.getUserSalt({ email: _login.email });
+      if(res.msg != null){
+        this.msg = res.msg;
+        return
+      }
+
+      this.email = _login.email;
+      const pass = _login.password;
+      this.password = await bcrypt.hashSync(pass + res.salt, res.salt);
     },
 
     async authorize() {
       if (this.isAuthorized) throw new Error('Already logged in');
-      
-      const res = await api.login(this.$state);
-      this.isAuthorized = res;
+      await api.login(this.$state).then((res) => {
+        this.isAuthorized = res.isAuthorized;
+        this.msg = res.msg;
+      });
     },
 
     clear() {

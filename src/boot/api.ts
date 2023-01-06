@@ -42,4 +42,12 @@ export default class api {
     });
     return x;
   }
+
+  static async getUserSalt(_info: { email : string }): Promise<any> {
+    let x;
+    await Api.post('/getUserSalt', _info).then((response) => {
+      x = response.data;
+    });
+    return x;
+  }
 }
