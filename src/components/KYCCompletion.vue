@@ -27,7 +27,7 @@ export default defineComponent({
         }
       });
     }
-  },
+  }
 });
 </script>
 
@@ -40,10 +40,9 @@ q-card.q-pa-sm.q-ma-sm(dark bordered)
       |{{msg}}
   q-separator(dark inset)
   div(v-if="allNotValidated")
-      div.q-pa-md Users who are not approved
-      q-separator(dark inset)
+    q-expansion-item(switch-toggle-side expand-separator label="Users who are not approved")
       q-list.q-pl-md(dark)
-        q-item.column.q-pl-sm(v-for="user in usersNotValidated" )
+        q-item.column.q-pl-md(v-for="user in usersNotValidated" )
           q-item-section {{user }}
 </template>
 
