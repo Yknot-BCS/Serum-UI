@@ -3,15 +3,47 @@ const { getDb } = require("./connection");
 class services {
   static async getDevicesAndMeters() {
     let countData = 0;
-    let msgData = "None";
+    let deviceMsg = "None";
 
     let countMeters = 0;
-    let msgMeters = "None";
+    let meterMsgs = "None";
 
-    let devices = await getDb().collection("reds").find({}).toArray();
+    let devicesWithoutMeters = [];
+    let devicesWithMetersWithoutData = [];
+
+    let devices = await getDb()
+      .collection("reds")
+      .aggregate([
+        {
+          $lookup: {
+            from: "users",
+            localField: "userId",
+            foreignField: "_id",
+            as: "username",
+          },
+        },
+        {
+          $addFields: {
+            username: {
+              $first: "$username",
+            },
+          },
+        },
+        {
+          $addFields: {
+            username: "$username.name",
+          },
+        },
+      ])
+      .toArray();
+
     devices.forEach((device) => {
       if (device.meters.length === 0) {
         countMeters++;
+        devicesWithoutMeters.push({
+          username: device.username,
+          devicename: device.name,
+        });
       }
     });
 
@@ -30,6 +62,26 @@ class services {
             localField: "meters",
             foreignField: "_id",
             as: "meter",
+          },
+        },
+        {
+          $lookup: {
+            from: "users",
+            localField: "userId",
+            foreignField: "_id",
+            as: "username",
+          },
+        },
+        {
+          $addFields: {
+            username: {
+              $first: "$username",
+            },
+          },
+        },
+        {
+          $addFields: {
+            username: "$username.name",
           },
         },
         {
@@ -53,6 +105,12 @@ class services {
             meterData: {
               $push: "$meterData",
             },
+            name: {
+              $first: "$name",
+            },
+            username: {
+              $first: "$username",
+            },
           },
         },
       ])
@@ -61,12 +119,21 @@ class services {
     deviceDatas.forEach((data) => {
       if (data.meterData.flat().length === 0) {
         countData++;
+        devicesWithMetersWithoutData.push({
+          devicename: data.name,
+          username: data.username,
+        });
       }
     });
 
-    msgData = `${countData}/${deviceDatas.length}`;
-    msgMeters = `${countMeters}/${devices.length}`;
-    return { devices: msgData, meters: msgMeters };
+    deviceMsg = `${countData}/${deviceDatas.length}`;
+    meterMsgs = `${countMeters}/${devices.length}`;
+    return {
+      deviceMsg: deviceMsg,
+      meterMsg: meterMsgs,
+      devicesWithoutMeters: devicesWithoutMeters,
+      devicesWithMetersWithoutData: devicesWithMetersWithoutData,
+    };
   }
 
   static async getUsersNotValidated() {
