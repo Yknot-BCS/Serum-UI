@@ -19,9 +19,7 @@ export default defineComponent({
       y: [
         {
           name: 'Hi',
-          data: [
-            { x: '05/06/2014', y: 54 },
-          ]
+          data: [{ x: '05/06/2014', y: 54 }]
         }
       ]
     });
@@ -30,69 +28,39 @@ export default defineComponent({
       y: [
         {
           name: 'Hi',
-          data: [
-            { x: '05/06/2014', y: 54 },
-          ]
+          data: [{ x: '05/06/2014', y: 54 }]
         }
       ]
     });
 
-    async function getUserSignupData(){
+    function prepareGraphData(graphTitle: string, databaseRes: any) {
       let sum = 0;
       const y = [] as number[];
       let datas = [] as { x: string; y: number }[];
 
-      const res = await api.getUserSignupData();
-      const firstDay = (new Date(res[0]._id)).setDate((new Date(res[0]._id)).getDate()-2);
-      const secondaryDay = (new Date(res[0]._id)).setDate((new Date(res[0]._id)).getDate()-1);
-      res.unshift({ _id: secondaryDay, count: 0 });
-      res.unshift({ _id: firstDay, count: 0 });
+      const firstDay = new Date(databaseRes[0]._id).setDate(
+        new Date(databaseRes[0]._id).getDate() - 2
+      );
+      const secondaryDay = new Date(databaseRes[0]._id).setDate(
+        new Date(databaseRes[0]._id).getDate() - 1
+      );
+      databaseRes.unshift({ _id: secondaryDay, count: 0 });
+      databaseRes.unshift({ _id: firstDay, count: 0 });
 
-      const dataPoints = res.map((a: { count: number }) => a.count);
+      const dataPoints = databaseRes.map((a: { count: number }) => a.count);
       dataPoints.forEach((dataPoint: number) => {
         sum += dataPoint;
         y.push(sum);
       });
 
-      res.forEach((a: { _id: string }, key: number) => {
+      databaseRes.forEach((a: { _id: string }, key: number) => {
         datas.push({ x: a._id, y: y[key] });
       });
 
       return <GraphData>{
         y: [
           {
-            name: 'User signup date',
-            data: datas
-          }
-        ]
-      };
-    }
-
-    async function getRECRequestData() {
-      let sum = 0;
-      const y = [] as number[];
-      let datas = [] as { x: string; y: number }[];
-
-      const res = await api.getRECRequestData();
-      const firstDay = (new Date(res[0]._id)).setDate((new Date(res[0]._id)).getDate()-2);
-      const secondaryDay = (new Date(res[0]._id)).setDate((new Date(res[0]._id)).getDate()-1);
-      res.unshift({ _id: secondaryDay, count: 0 });
-      res.unshift({ _id: firstDay, count: 0 });
-
-      const dataPoints = res.map((a: { count: number }) => a.count);
-      dataPoints.forEach((dataPoint: number) => {
-        sum += dataPoint;
-        y.push(sum);
-      });
-
-      res.forEach((a: { _id: string }, key: number) => {
-        datas.push({ x: a._id, y: y[key] });
-      });
-
-      return <GraphData>{
-        y: [
-          {
-            name: 'REC Request date',
+            name: graphTitle,
             data: datas
           }
         ]
@@ -100,14 +68,22 @@ export default defineComponent({
     }
 
     onMounted(async () => {
-      userSignupData.value = await getUserSignupData();
-      recsReleased.value = await getRECRequestData()
+      const userSignupRes = await api.getUserSignupData();
+      const recsReleasedRes = await api.getRECRequestData();
+      userSignupData.value = prepareGraphData(
+        'User signup date',
+        userSignupRes
+      );
+      recsReleased.value = prepareGraphData(
+        'REC request date',
+        recsReleasedRes
+      );
     });
 
     return {
       userSignupData,
       recsReleased,
-      onMounted
+      onMounted,
     };
   }
 });
@@ -117,10 +93,10 @@ export default defineComponent({
 q-page.flex-center.column
   div.q-mt-xl
   KYCCompletion.card
-  Devices.card
+  Devices.card(transition-show="fade")
   REC.card
-  MyGraph(:graphTitle="userSignupData?.y[0].name" :y="userSignupData?.y").card
-  MyGraph(:graphTitle="recsReleased?.y[0].name" :y="recsReleased?.y").card
+  MyGraph.card(:graphTitle="userSignupData?.y[0].name" :y="userSignupData?.y")
+  MyGraph.card(:graphTitle="recsReleased?.y[0].name" :y="recsReleased?.y")
   div.q-mb-xl
 </template>
 
