@@ -159,8 +159,9 @@ class services {
   static async getRecs() {
     let msgIssued = "None";
     let msgTotal = "None";
+    let msgPending = "None";
 
-    let recs = await getDb()
+    let recsAPP = await getDb()
       .collection("recverificationrequests")
       .aggregate([
         {
@@ -172,10 +173,42 @@ class services {
       .toArray();
 
     let totalIssued = 0;
-    recs.forEach((rec) => {
+    recsAPP.forEach((rec) => {
       totalIssued += rec.energySum;
     });
     msgIssued = Math.floor(totalIssued / 1000);
+
+    let recsPEN = await getDb()
+      .collection("recverificationrequests")
+      .aggregate([
+        {
+          $match: {
+            status: "PENDING",
+          },
+        },
+      ])
+      .toArray();
+    let totalRecsPending = 0;
+    recsPEN.forEach((rec) => {
+      totalRecsPending += rec.energySum;
+    });
+
+    let meterDatasPEN = await getDb()
+      .collection("meterdatas")
+      .aggregate([
+        {
+          $match: {
+            status: "PENDING",
+          },
+        },
+      ])
+      .toArray();
+    let totalMeterDatasPending = 0;
+    meterDatasPEN.forEach((meterdata) => {
+      totalMeterDatasPending += meterdata.reading;
+    });
+    const totalPending = totalMeterDatasPending + totalRecsPending;
+    msgPending = Math.floor(totalPending / 1000);
 
     let total = 0;
     let orders = await getDb().collection("orders").find({}).toArray();
@@ -183,8 +216,56 @@ class services {
       total += order.price * order.amount;
     });
 
-    msgTotal = `R${total}`;
-    return { issued: msgIssued, totalValue: msgTotal };
+    msgTotal = `R ${total}`;
+    return { issued: msgIssued, totalValue: msgTotal, pending: msgPending };
+  }
+
+  static async getUserSignupData() {
+    const userData = await getDb().collection("users").aggregate([
+      {
+        $group: {
+          _id: {
+            $dateToString: {
+              format: "%Y-%m-%d",
+              date: "$createdAt",
+            },
+          },
+          count: {
+            $sum: 1,
+          },
+        },
+      },
+      {
+        $sort: {
+          _id: 1,
+        },
+      },
+    ]).toArray();
+    return userData;
+  }
+
+  static async getRECRequestData(){
+    const recRequestData = await getDb().collection("recverificationrequests").aggregate([
+      {
+        $group: {
+          _id: {
+            $dateToString: {
+              format: "%Y-%m-%d",
+              date: "$createdAt",
+            },
+          },
+          count: {
+            $sum: 1,
+          },
+        },
+      },
+      {
+        $sort: {
+          _id: 1,
+        },
+      },
+    ]).toArray();
+    return recRequestData;
   }
 }
 

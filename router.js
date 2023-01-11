@@ -24,6 +24,17 @@ router.post("/getUserSalt", async (req, res) => {
   res.send(data);
 });
 
+router.get("/getUserSignupData", async (req, res) => {
+  let data = await services.getUserSignupData();
+  res.send(data);
+});
+
+router.get("/getRECRequestData", async (req, res) => {
+  let data = await services.getRECRequestData();
+  res.send(data);
+});
+
+
 router.get("/usersNotValidated", async (req, res) => {
   let data = await services.getUsersNotValidated();
   res.send(data);
