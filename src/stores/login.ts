@@ -16,7 +16,6 @@ export const useLoginStore = defineStore('login', {
     password: '',
     isAuthorized: false,
     msg: '',
-    isLoaded: false
   }),
 
   getters: {},

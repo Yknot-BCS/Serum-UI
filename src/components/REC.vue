@@ -7,7 +7,8 @@ export default defineComponent({
   data() {
     return {
       issued: 'None',
-      totalValue: 'None'
+      totalValue: 'None',
+      pending: 'None',
     };
   },
   async beforeMount() {
@@ -18,6 +19,7 @@ export default defineComponent({
       await api.getRECs().then((data) => {
         this.issued = data.issued;
         this.totalValue = data.totalValue;
+        this.pending = data.pending;
       });
     }
   }
@@ -34,7 +36,13 @@ q-card.q-pa-sm.q-ma-sm(dark bordered)
   q-separator(dark inset)
   q-card-section.q-pa-md
     div.text-h6.row
-      |  Total value of RECs traded
+      |  Current unapproved RECs:
+      q-space
+      |{{pending}}
+  q-separator(dark inset)
+  q-card-section.q-pa-md
+    div.text-h6.row
+      |  Total value of RECs traded:
       q-space
       |  {{totalValue}}
 </template>

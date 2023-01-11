@@ -100,8 +100,6 @@ q-page.flex-center.column
           )
         div.q-pr-md
           q-btn.full-width(label="Log In" type="submit" color="secondary")
-
-
 </template>
 
 <style scoped lang="sass">

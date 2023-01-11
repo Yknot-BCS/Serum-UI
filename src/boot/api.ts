@@ -35,6 +35,23 @@ export default class api {
     return x;
   }
 
+  static async getUserSignupData(): Promise<any> {
+    let x;
+    await Api.get('/getUserSignupData').then((response) => {
+      x = response.data;
+    });
+    return x;
+  }
+
+  static async getRECRequestData(): Promise<any> {
+    let x;
+    await Api.get('/getRECRequestData').then((response) => {
+      x = response.data;
+    });
+    return x;
+  }
+
+
   static async login(_login: any): Promise<any> {
     let x;
     await Api.post('/login', _login).then((response) => {

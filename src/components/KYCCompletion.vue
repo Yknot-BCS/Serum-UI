@@ -42,6 +42,7 @@ q-card.q-pa-sm.q-ma-sm(dark bordered)
   div(v-if="allNotValidated")
     q-expansion-item(switch-toggle-side expand-separator label="Users who are not approved")
       q-list.q-pl-md(dark)
+        q-separator(dark)
         q-item.column.q-pl-md(v-for="user in usersNotValidated" )
           q-item-section {{user }}
 </template>

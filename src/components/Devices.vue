@@ -21,7 +21,6 @@ export default defineComponent({
       const data = await api.getDevicesAndMeters();
       this.deviceMsg = data.deviceMsg;
       this.meterMsg = data.meterMsg;
-      console.log(data);
       this.devicesWithMetersWithoutData = data.devicesWithMetersWithoutData;
       this.devicesWithoutMeters = data.devicesWithoutMeters;
     }
