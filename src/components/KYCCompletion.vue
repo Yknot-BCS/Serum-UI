@@ -7,6 +7,7 @@ export default defineComponent({
   name: 'KycCompletion',
   data() {
     return {
+      store: useLoginStore(),
       msg: 'None',
       allNotValidated: true,
       usersNotValidated: [] as string[]
@@ -20,8 +21,6 @@ export default defineComponent({
       await api.getUsersNotValidated().then((data) => {
         this.msg = data.msg;
         this.usersNotValidated = Object.assign([], data.usersNotValidated);
-        const loginStore = useLoginStore();
-        loginStore.isLoaded = true;
         if (this.usersNotValidated.length == 0) {
           this.allNotValidated = false;
         }
@@ -40,7 +39,14 @@ q-card.q-pa-sm.q-ma-sm(dark bordered)
       |{{msg}}
   q-separator(dark inset)
   div(v-if="allNotValidated")
-    q-expansion-item(switch-toggle-side expand-separator label="Users who are not approved")
+    q-expansion-item(
+      switch-toggle-side
+      expand-separator
+      label="Users who are not approved"
+      v-model="store.expanded"
+      @show="store.expanded = true"
+      @hide="store.expanded = false"
+    )
       q-list.q-pl-md(dark)
         q-separator(dark)
         q-item.column.q-pl-md(v-for="user in usersNotValidated" )

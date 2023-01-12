@@ -7,7 +7,7 @@ export interface Login {
   password: string;
   isAuthorized?: boolean;
   msg?: string;
-  isLoaded?: boolean;
+  expanded?: boolean;
 }
 
 export const useLoginStore = defineStore('login', {
@@ -16,6 +16,7 @@ export const useLoginStore = defineStore('login', {
     password: '',
     isAuthorized: false,
     msg: '',
+    expanded: false
   }),
 
   getters: {},

@@ -8,7 +8,8 @@ export default defineComponent({
     return {
       issued: 'None',
       totalValue: 'None',
-      pending: 'None',
+      pendingRecs: 'None',
+      pendingMeterDatas: 'None',
     };
   },
   async beforeMount() {
@@ -19,7 +20,8 @@ export default defineComponent({
       await api.getRECs().then((data) => {
         this.issued = data.issued;
         this.totalValue = data.totalValue;
-        this.pending = data.pending;
+        this.pendingRecs = data.pendingRecs;
+        this.pendingMeterDatas = data.pendingMeterDatas;
       });
     }
   }
@@ -36,15 +38,23 @@ q-card.q-pa-sm.q-ma-sm(dark bordered)
   q-separator(dark inset)
   q-card-section.q-pa-md
     div.text-h6.row
-      |  Current unapproved RECs:
-      q-space
-      |{{pending}}
-  q-separator(dark inset)
-  q-card-section.q-pa-md
-    div.text-h6.row
       |  Total value of RECs traded:
       q-space
       |  {{totalValue}}
+  q-separator(dark inset)
+  q-card-section.q-pa-md
+    div.text-h6.row
+      |Current unapproved RECs:
+      q-space
+      u {{pendingRecs+pendingMeterDatas}}
+    div.text-h6.q-ml-md.row
+      |→ From pending RECs:
+      q-space
+      |{{pendingRecs}}
+    div.text-h6.q-ml-md.row
+      |→ From meter data:
+      q-space
+      |{{pendingMeterDatas}}
 </template>
 
 <style scoped lang="sass"></style>

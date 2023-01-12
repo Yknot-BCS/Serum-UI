@@ -2,7 +2,8 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
 import KYCCompletion from 'components/KYCCompletion.vue';
-import Devices from 'components/Devices.vue';
+import DevicesWithoutMeters from 'components/DevicesWithoutMeters.vue';
+import DevicesWithoutData from 'components/DevicesWithoutData.vue';
 import REC from 'components/REC.vue';
 import MyGraph from 'components/MyGraph.vue';
 import api from 'src/boot/api';
@@ -13,7 +14,7 @@ export interface GraphData {
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { KYCCompletion, Devices, REC, MyGraph },
+  components: { KYCCompletion, DevicesWithoutMeters, REC, MyGraph, DevicesWithoutData },
   setup() {
     const userSignupData = ref<GraphData>({
       y: [
@@ -71,11 +72,11 @@ export default defineComponent({
       const userSignupRes = await api.getUserSignupData();
       const recsReleasedRes = await api.getRECRequestData();
       userSignupData.value = prepareGraphData(
-        'User signup date',
+        'User signups over time',
         userSignupRes
       );
       recsReleased.value = prepareGraphData(
-        'REC request date',
+        'RECs issued over time',
         recsReleasedRes
       );
     });
@@ -90,19 +91,20 @@ export default defineComponent({
 </script>
 
 <template lang="pug">
-q-page.flex-center.column
-  div.q-mt-xl
-  KYCCompletion.card
-  Devices.card(transition-show="fade")
-  REC.card
-  MyGraph.card(:graphTitle="userSignupData?.y[0].name" :y="userSignupData?.y")
-  MyGraph.card(:graphTitle="recsReleased?.y[0].name" :y="recsReleased?.y")
-  div.q-mb-xl
+q-page.row
+  div.q-px-sm.q-py-none.q-mt-sm.full-width.row
+    KYCCompletion.card.col
+    DevicesWithoutMeters.card.col
+    DevicesWithoutData.card.col
+  div.q-px-sm.q-py-none.full-width.row
+    MyGraph.card.col(:graphTitle="userSignupData?.y[0].name" :y="userSignupData?.y")
+    MyGraph.card.col(:graphTitle="recsReleased?.y[0].name" :y="recsReleased?.y")
+  div.q-px-md.q-py-none.q-mb-sm.full-width.row
+    REC.full-width.card
 </template>
 
 <style scoped lang="sass">
 .card
-  background: linear-gradient(to right , $primary, $secondary)
-  width: 55%
-  min-width: 450px
+  background: linear-gradient(to bottom , $primary, $secondary)
+  min-width: 200px
 </style>
