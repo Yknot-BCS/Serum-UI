@@ -72,11 +72,11 @@ export default defineComponent({
       const userSignupRes = await api.getUserSignupData();
       const recsReleasedRes = await api.getRECRequestData();
       userSignupData.value = prepareGraphData(
-        'User signups over time',
+        'Cumulative User signups over time',
         userSignupRes
       );
       recsReleased.value = prepareGraphData(
-        'RECs issued over time',
+        'Cumulative  RECs issued over time',
         recsReleasedRes
       );
     });
