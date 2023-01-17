@@ -107,12 +107,7 @@ export default defineComponent({
         for (const nft of tokenIds) {
           // axios get ipfs json data
           try {
-            let res = await this.$axios.get(`${process.env.IPFS_URL}/QmWjQNm3N8eWNQtAAmdU5KaQW46x2AoaGxU9RjmHTLuGHF/${nft}.json`,
-              {
-                headers: {
-                  'Access-Control-Allow-Origin': '*'
-                }
-              });
+            let res = await this.$axios.get(`${process.env.IPFS_URL}/QmWjQNm3N8eWNQtAAmdU5KaQW46x2AoaGxU9RjmHTLuGHF/${nft}.json`);
             // if res.data has property of name, add to nftData
             if (res.data.name) {
               this.nftData.push(res.data);
