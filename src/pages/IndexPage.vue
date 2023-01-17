@@ -84,7 +84,7 @@ export default defineComponent({
 
     imageLink(url: string): string {
       if (url) {
-        const imageUrl = url.replace('ipfs://', 'https://ipfs.io/ipfs/');
+        const imageUrl = url.replace('ipfs://', process.env.IPFS_URL as string);
 
         return imageUrl;
       }
@@ -107,7 +107,7 @@ export default defineComponent({
         for (const nft of tokenIds) {
           // axios get ipfs json data
           try {
-            let res = await this.$axios.get(`https://gateway.pinata.cloud/ipfs/QmWjQNm3N8eWNQtAAmdU5KaQW46x2AoaGxU9RjmHTLuGHF/${nft}.json`,
+            let res = await this.$axios.get(`${process.env.IPFS_URL}/QmWjQNm3N8eWNQtAAmdU5KaQW46x2AoaGxU9RjmHTLuGHF/${nft}.json`,
               {
                 headers: {
                   'Access-Control-Allow-Origin': '*'
