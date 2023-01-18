@@ -206,7 +206,75 @@ q-page
     .p 6.6 On every purchase and sale of a Token by the Company, 5% (five percent) of the sales value of the Token, as determined in accordance with clause 6.5 above, shall (unless the Company elects that a different percentage apply, provided that such percentage shall not be more than 10% (ten percent)) be retained by the Company and transferred to the Company’s Wallet (or to such other account as the Company, in its sole discretion, may elect) and the remaining portion thereof (less any withholding taxes and/or any other amounts which the Company may, under Applicable Law, be required to withhold) shall be transferred (in Ether) to the selling Token Holder in question into such Wallet as specified by such Token Holder.
 
     //- WARRANTIES
-    //- .h2_title.text-white 7. WARRANTIES
+    .h2_title.text-white 7. WARRANTIES
+    .p 7.1 The Token Holder hereby represents and warrants in favour of the Company that –
+      .q-mx-md
+        .p 7.1.1 (in the case of a natural person) he/she is 18 (eighteen) years of age or older; and
+        .p 7.1.2 the obligations expressed to be assumed by the Token Holder in terms of this Agreement are and shall be legal and valid obligations binding on it and enforceable against it in accordance with the terms hereof and will not conflict with any Applicable Law binding on it and/or its assets.
+    .p 7.2 Each warranty shall (to the extent applicable) remain in force, notwithstanding the sale by the Token Holder of all (or any) of its Tokens.
+    .p 7.3 Each of the warranties shall be construed and be enforceable as a separate and severable warranty from the remaining warranties and no warranty will limit or otherwise adversely affect any other warranty.
+    .p 7.4 All the warranties provided by the Token Holder in terms of this Agreement are deemed to be material.
+    .p 7.5 Insofar as any warranty is promissory or relates to a future event, it shall be deemed to have been given as at the due date for fulfilment of the promise or the happening of the event, as the case may be.
+
+    //- LIMITATION OF LIABILITY AND INDEMNITY
+    .h2_title.text-white 8. LIMITATION OF LIABILITY AND INDEMNITY
+    .p 8.1 Use of the Services (or any of them), the purchase and/or disposal of Tokens and the participation in Token Matters, in any manner whatsoever, is entirely at the Token Holder’s own risk and the Token Holder assumes full responsibility for any loss, damage and/or harm which may arise from the Token Holder’s aforementioned activities, including, without limitation, any loss arising from –
+      .q-mx-md
+        .p 8.1.1 the Token Holder’s Wallet being hacked and/or its cryptocurrencies otherwise being lost;
+        .p 8.1.2 a sale and/or purchase of Token(s) failing or being delayed for whatsoever reason;
+        .p 8.1.3 its computer and/or programs being infected with viruses and/or otherwise being damaged; and/or
+        .p 8.1.4 its Personal Information being stolen and/or used without authorisation.
+    .p 8.2 It is specifically recorded that the views expressed by other Token Holders on the Website, Discourse and/or any other communication platform which may be used by Token Holders are not necessarily the views of the Company. Save for any warranty expressly given by the Company in writing, the Company gives no warranty in respect of the Brand, its value and/or profitability and/or any other matter which may entice the Token Holder to acquire (or dispose of, as the case may be) a Token and/or participate in the Brand.
+    .p 8.3 Save in respect of a loss caused by the gross negligence and/or wilful misconduct of the Company and/or one of its employees, consultants and/or agents (“Associates”), neither the Company nor its Associates shall take any responsibility for any loss arising from errors in and/or problems with the Services, the Liquidity Pool, the Serum Funds and/or any other technology used in pursuance of the objectives contemplated in this Agreement, including a lack of access thereto.
+    .p 8.4 Whilst the Company undertakes to use its reasonable endeavours to protect any Personal Information of the Token Holder which may come into the Company’s possession, the Company shall not, provided that it has complied with all Applicable Laws in respect of the protection of Personal Information (in particular, POPIA), accept any responsibility or liability for any unauthorised and/or unlawful disclosure of any of the Token Holder’s Personal Information, howsoever arising.
+    .p 8.5 The Token Holder hereby indemnifies the Company and its Associates and undertakes to hold them harmless against any claim which may be brought against them (or any of them) as a result of the Token Holder’s use of the Services (or any of them), the purchase of sale of a Token and/or its participation in the Brand in any matter whatsoever, as contemplated herein and/or as a result of any matter for which the Company is indemnified under this clause 8.
+
+
+
+    //- FORCE MAJEURE
+    .h2_title.text-white 9. FORCE MAJEURE
+    .p In the event that the Company is prevented from carrying out any term of this Agreement as a result of any circumstance beyond its reasonable control including, without limiting the generality of the foregoing, acts of God, strikes or other labour unrest (including stay-aways), fire, riot, war, civil commotion, accident, embargoes, sanctions, boycotts, import-control, international restrictions, and/or natural disasters ( each a “force majeure event”), the Company shall be excused from performing or timeously performing the obligations affected by that force majeure event for the duration that such force majeure event persists.
+
+    //- CONFIDENTIALITY
+    .h2_title.text-white 10. CONFIDENTIALITY
+    .p 10.1 Each Party undertakes that it will use the same means as it uses to protect its own Confidential Information, but in no event less than reasonable means, to prevent the disclosure and to protect the confidentiality of the disclosing Party’s Confidential information. No such information will be disclosed by the recipient Party, its agents, representatives or employees without the prior written consent of the disclosing Party.
+    .p 10.2 The foregoing provision shall not apply to information which is –
+      .q-mx-md
+        .p 10.2.1 publicly known or becomes publicly known through no unauthorised act of the recipient Party;
+        .p 10.2.2 rightfully received by the recipient Party from a third party;
+        .p 10.2.3 independently developed by the recipient Party without use of the disclosing Party's information;
+        .p 10.2.4 disclosed by the disclosing Party to a third party without similar restrictions;
+        .p 10.2.5 required to be disclosed pursuant to a requirement of a governmental agency, registered securities exchange or any Applicable Law, so long as the Party required to release the information provides the disclosing Party with prior notice of such disclosure; and/or
+        .p 10.2.6 publicly disclosed with the disclosing Party's prior written consent.
+    .p 10.3 The Company specifically undertakes that it shall keep confidential any Personal Information which it may collect from the Token Holder from time to time in accordance with the provisions of POPIA and/or any other Applicable Law.
+
+    //- BREACH AND TERMINATION
+    .h2_title.text-white 11. BREACH AND TERMINATION
+    .p 11.1 f the Token Holder breaches any provision of this Agreement and remains in breach for 14 (fourteen) days after written notice to the Token Holder by the Company, requiring the Token Holder to rectify that breach, then, in addition to any other remedies to which the Company may be entitled under Applicable Law (including any right to claim damages), the Company, by written notice to the Token Holder, shall be entitled to –
+      .q-mx-md
+        .p 11.1.1 demand specific performance by the Token Holder of any and all obligations owing to the Company under this Agreement;
+        .p 11.1.2 repurchase from the Token Holder any and/or all of its Tokens at nominal value; and/or
+        .p 11.1.3 refuse the transfer of any further Tokens to the Token Holder.
+    .p 11.2 the Company shall be entitled to claim from the Token Holder all costs incurred by the Company in the enforcement of its rights under this Agreement on the scale as between attorney and own client and shall include collection charges, the costs incurred by the Company in enforcing its rights prior to the institution of legal proceedings and the costs incurred in connection with the satisfaction or enforcement of any judgment awarded in favour of the Company in relation to its rights in terms of or arising from this Agreement.
+
+    //- LAW AND JURISDICTION
+    .h2_title.text-white 12. LAW AND JURISDICTION
+    .p 12.1 This Agreement shall be governed by and construed in accordance with the laws of South Africa.
+    .p 12.2 The Parties agree that the courts of South Africa shall, subject to clause 13.4 below, have exclusive jurisdiction in respect of any action or proceedings arising out of or in connection with this Agreement.
+    .p 12.3 Save for any provision of this Agreement which provides for its own method of dispute resolution, the Parties submit to the exclusive jurisdiction of the Western Cape High Court (Cape Town) in respect of any dispute which may arise out of this Agreement.
+    .p 12.4 Notwithstanding clauses 13.2 and 13.3 above, should the Company, in its sole and absolute discretion, deem it necessary or more appropriate to bring a claim in a court outside South Africa in order for a claim against the Token Holder to be effectively enforced, then the Company shall be entitled to elect, in writing, to institute action against the Token Holder in such appropriate court outside South Africa.
+
+    //- ASSIGNMENT
+    .h2_title.text-white 13. ASSIGNMENT
+    .p The Token Holder shall not be entitled to cede and/or assign any of its rights and/or obligations under this Agreement, in whole or in part, to any third party without the prior written consent of the Company.
+
+    //- MISCELLANEOUS
+    .h2_title.text-white 14. MISCELLANEOUS
+    .p 14.1 Notwithstanding any express or implied provision of this Agreement the contrary, no latitude, extension of time or other indulgence which may be given or allowed by a Party (“Grantor”) to the other in respect of such other Party’s obligations hereunder, shall, under any circumstances, be deemed to be a waiver by the Grantor of its rights to require strict and punctual compliance with each and every provision or term hereof.
+    .p 14.2 Subject to the Company’s entitlement to amend, update and/or replace this Agreement in accordance with clause E of Section A above, no alteration, cancellation, variation of, or addition hereto shall be of any force or effect unless reduced to writing and signed by both Parties.
+    .p 14.3 The Token Holder’s use and/or acquisition of a Token, its use of any of the Services and/or its participation in the Brand in any other manner whatsoever, shall constitute deemed acceptance of the provisions of this Agreement and the express acceptance of the provisions of this Agreement by the Token Holder shall not be required to impose valid obligations on the Token Holder.
+    .p 14.4 Each provision in this Agreement is severable, the one from the other, and, if, at any time, any provision is or becomes or is found to be illegal, invalid, non-conforming or unenforceable for any reason by any competent court, the remaining provisions shall be of full force and effect and shall continue to be of full force and effect.
+
 
 </template>
 <style lang="sass" scoped>
