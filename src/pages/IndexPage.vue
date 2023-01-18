@@ -315,6 +315,10 @@ q-page
               unelevated
               @click="closeDialog()"
               )
-          .p.q-py-md By accepting you agree to the terms and conditions
+          .p.q-py-md By accepting you agree to the
+            span &nbsp;
+              a(
+                  href='terms-and-conditions'
+                ) Terms and Conditions
 
 </template>
