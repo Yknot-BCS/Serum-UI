@@ -11,6 +11,7 @@ export default defineComponent({
   setup() {
     const store = useAccountStore();
     const account = computed(() => store.getAccount);
+    const disclaimerDailog = ref(true);
 
     //- Chad Contract Address
     const lockId = process.env.LOCKID as string;
@@ -41,6 +42,7 @@ export default defineComponent({
       chadContractAddr,
       claimContractAddr,
       serumContractAddr,
+      disclaimerDailog,
       ERC721_ABI,
       claimABI,
       ERC20_ABI,
@@ -62,6 +64,10 @@ export default defineComponent({
   },
 
   methods: {
+
+    closeDialog(){
+      this.disclaimerDailog = !this.disclaimerDailog;
+    },
     timeRemaining() {
       if (this.lockInfo.startEmission !== 0 && this.lockInfo.endEmission !== 0) {
         const now = new Date().getTime();
@@ -279,4 +285,36 @@ q-page
                 icon='star'
                 @click="claimSingle(NFT.edition)"
               )
+  //- Claim Disclaimer dialog
+  q-dialog(v-model='disclaimerDailog')
+    q-card.disclaimer-card
+      q-card-section.q-pb-none
+        .h2_title.text-center DISCLAIMER
+      q-card-section.q-py-none.q-mx-md
+        li The Chads Club has moved under Energy Serum Global who will now manage The Chads Club as part of their services
+        li
+          span The Chads Club&nbsp;
+          span
+              a(
+                href='https://www.thechadsclub.com/terms'
+              ) Terms and Conditions
+              |&nbsp;will continue to apply
+        li Chads #1-777 can claim a total of 52500 Serum ERC20 utility Tokens
+        li Chads #778-1300 can claim a total of 17500 Serum ERC20 utility Tokens
+        li The Serum token and token claim is subject to the Serum Terms and Conditions below. Click the button below to view it.
+        li
+          span More info on the Serum token can be found at&nbsp;
+          span
+              a(
+                href='https://drinkserum.com/'
+              ) Serum Energy Drink
+      q-card-section.q-pb-none
+        .row.justify-center.q-my-md
+          q-btn(
+              label='Accept'
+              unelevated
+              @click="closeDialog()"
+              )
+          .p.q-py-md By accepting you agree to the terms and conditions
+
 </template>
