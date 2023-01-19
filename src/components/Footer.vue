@@ -38,6 +38,7 @@ export default defineComponent({
         text-color="yellow"
         :ripple='false'
         href='/documents/Serum_Terms_and_Conditions.pdf'
+        target='_blank'
         )
 
 </template>

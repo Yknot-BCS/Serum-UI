@@ -286,28 +286,13 @@ q-page
                 @click="claimSingle(NFT.edition)"
               )
   //- Claim Disclaimer dialog
-  q-dialog(v-model='disclaimerDailog')
+  q-dialog(v-model='disclaimerDailog', persistent)
     q-card.disclaimer-card
       q-card-section.q-pb-none
         .h2_title.text-center DISCLAIMER
       q-card-section.q-py-none.q-mx-md
-        li The Chads Club has moved under Energy Serum Global who will now manage The Chads Club as part of their services
-        li
-          span The Chads Club&nbsp;
-          span
-              a(
-                href='https://www.thechadsclub.com/terms'
-              ) Terms and Conditions
-              |&nbsp;will continue to apply
-        li Chads #1-777 can claim a total of 52500 Serum ERC20 utility Tokens
-        li Chads #778-1300 can claim a total of 17500 Serum ERC20 utility Tokens
-        li The Serum token and token claim is subject to the Serum Terms and Conditions below. Click the button below to view it.
-        li
-          span More info on the Serum token can be found at&nbsp;
-          span
-              a(
-                href='https://drinkserum.com/'
-              ) Serum Energy Drink
+        li Claiming the SER Utility Token is subject to the Serum Terms and Conditions
+        li Click accept to proceed
       q-card-section.q-pb-none
         .row.justify-center.q-my-md
           q-btn(
@@ -319,6 +304,7 @@ q-page
             span &nbsp;
               a(
                   href='/documents/Serum_Terms_and_Conditions.pdf'
+                  target='_blank'
                 ) Terms and Conditions
 
 </template>
