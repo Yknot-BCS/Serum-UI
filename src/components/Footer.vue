@@ -37,7 +37,7 @@ export default defineComponent({
         unelevated
         text-color="yellow"
         :ripple='false'
-        :to='{ name: "terms-and-conditions" }'
+        href='/documents/Serum_Terms_and_Conditions.pdf'
         )
 
 </template>

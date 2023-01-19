@@ -318,7 +318,7 @@ q-page
           .p.q-py-md By accepting you agree to the
             span &nbsp;
               a(
-                  href='terms-and-conditions'
+                  href='/documents/Serum_Terms_and_Conditions.pdf'
                 ) Terms and Conditions
 
 </template>
