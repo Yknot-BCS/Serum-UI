@@ -65,7 +65,7 @@ export default defineComponent({
 
   methods: {
 
-    closeDialog(){
+    closeDialog() {
       this.disclaimerDailog = !this.disclaimerDailog;
     },
     timeRemaining() {
@@ -126,7 +126,7 @@ export default defineComponent({
 
         const claimtokens = new ethers.Contract(this.claimContractAddr, this.claimABI, provider);
         // console.log((await claimtokens.getWithdrawableSharesToken(0, 1)).toString());
-        // console.log(await claimtokens.LOCKS(0));
+        console.log(await claimtokens.LOCKS(0));
         this.lockInfo = await claimtokens.LOCKS(this.lockId);
         for (const nft of this.nftData) {
           // Calculate claimed, available and locked tokens
@@ -172,8 +172,12 @@ export default defineComponent({
       const end = this.lockInfo.endEmission * 1000;
       const diff = end - start;
       const diffNow = now - start;
-      const claimable = ethers.utils.parseEther(amount.toString()).mul(diffNow).div(diff);
-      return this.toEther(claimable);
+      if (now > end) {
+        return this.toEther(ethers.utils.parseEther(amount.toString()));
+      } else {
+        const claimable = ethers.utils.parseEther(amount.toString()).mul(diffNow).div(diff);
+        return this.toEther(claimable);
+      }
     },
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -276,7 +280,7 @@ q-page
           .col.text-center
             .p.text-yellow CLAIMED : {{NFT.claimed != undefined ? toEther(NFT.claimed) : 0}}
             .p.text-white AVAILABLE : {{NFT.available != undefined ? calculateAvailable(NFT): 0}}
-            .p.text-white LOCKED :  {{NFT.locked != undefined ? calculateLocked(NFT): 0}}
+            .p.text-white(v-if="new Date().getTime() < this.lockInfo.endEmission * 1000") LOCKED :  {{NFT.locked != undefined ? calculateLocked(NFT): 0}}
 
           .row.flex-center
             q-card-actions(vertical)
@@ -296,15 +300,15 @@ q-page
       q-card-section.q-pb-none
         .row.justify-center.q-my-md
           q-btn(
-              label='Accept'
-              unelevated
-              @click="closeDialog()"
-              )
+            label='Accept'
+            unelevated
+            @click="closeDialog()"
+            )
           .p.q-py-md By accepting you agree to the
             span &nbsp;
               a(
-                  href='/documents/Serum_Terms_and_Conditions.pdf'
-                  target='_blank'
+                href='/documents/Serum_Terms_and_Conditions.pdf'
+                target='_blank'
                 ) Terms and Conditions
 
 </template>
