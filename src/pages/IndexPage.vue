@@ -184,7 +184,8 @@ export default defineComponent({
     calculateAvailable(nft: any): string {
       if (nft.locked) {
         let locked = ethers.BigNumber.from(nft.locked as ethers.BigNumber);
-        if (locked.eq(0)) {
+        let available = ethers.BigNumber.from(nft.available as ethers.BigNumber);
+        if (locked.eq(0) && available.gt(0)) {
           if (nft.edition <= 777) {
             return this.calculateClaimable(52500);
           }
